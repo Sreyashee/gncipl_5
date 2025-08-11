@@ -9,9 +9,18 @@ from PIL import Image, ImageDraw, ImageFont
 
 load_dotenv()
 
-app = Flask(__name__)
-CORS(app, supports_credentials=True)
 
+FRONTEND_ORIGIN = "https://gncipl-5.vercel.app"
+
+app = Flask(__name__)
+
+CORS(
+    app,
+    origins=[FRONTEND_ORIGIN],
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "OPTIONS"]
+)
 # MongoDB Atlas connection
 app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo = PyMongo(app)
@@ -82,3 +91,4 @@ def generate_certificate():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
